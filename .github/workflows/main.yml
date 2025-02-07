@@ -1,15 +1,23 @@
 name: Auto commit
 
 on:
-
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
 
 jobs:
   auto_commit:
     runs-on: ubuntu-latest
     steps:
+      - name: Random delay
+        run: |
+          # Generate a random delay between 7200 seconds (2 hours) and 10800 seconds (3 hours)
+          delay=$((7200 + RANDOM % 3600))
+          echo "Sleeping for $delay seconds"
+          sleep $delay
+
       - uses: actions/checkout@v3
         with:
          persist-credentials: false
